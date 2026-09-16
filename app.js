@@ -7,24 +7,43 @@ document.querySelectorAll('.category-links button').forEach((button) => {
 });
 
 const scentTabs = document.querySelectorAll('.scent-tab');
+const closeScentModal = () => {
+  document.querySelectorAll('.scent-panel.scent-modal-open').forEach((panel) => {
+    panel.classList.remove('scent-modal-open');
+    panel.hidden = true;
+  });
+  scentTabs.forEach((item) => {
+    item.setAttribute('aria-expanded', 'false');
+    item.classList.remove('active');
+  });
+  document.body.classList.remove('scent-modal-visible');
+};
+
 scentTabs.forEach((tab) => {
   tab.addEventListener('click', () => {
     const panel = document.getElementById(tab.getAttribute('aria-controls'));
-    const isOpen = tab.getAttribute('aria-expanded') === 'true';
+    if (!panel) return;
 
-    scentTabs.forEach((item) => {
-      const otherPanel = document.getElementById(item.getAttribute('aria-controls'));
-      item.setAttribute('aria-expanded', 'false');
-      item.classList.remove('active');
-      if (otherPanel) otherPanel.hidden = true;
-    });
+    closeScentModal();
 
-    if (!isOpen && panel) {
-      tab.setAttribute('aria-expanded', 'true');
-      tab.classList.add('active');
-      panel.hidden = false;
-    }
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'scent-modal-close';
+    closeButton.setAttribute('aria-label', 'Close');
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', closeScentModal);
+
+    panel.prepend(closeButton);
+    panel.hidden = false;
+    panel.classList.add('scent-modal-open');
+    tab.setAttribute('aria-expanded', 'true');
+    tab.classList.add('active');
+    document.body.classList.add('scent-modal-visible');
   });
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeScentModal();
 });
 
 const kitchenButtons = document.querySelectorAll('[data-kitchen-finish]');

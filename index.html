@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parfum Le Zanne — Luxury fragrance house." />
+  <title>Parfum Le Zanne — Perfume House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Parfum Le Zanne home">Le Zanne</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#women">Women</a>
+      <a href="#men">Men</a>
+      <a href="#all-products">All Products</a>
+      <a href="#art-of-scent">The Art of Scent</a>
+      <a href="#about">About us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="cart-button" aria-label="Shopping bag">Bag <span>0</span></button>
+  </header>
+
+  <main id="top">
+    <section class="hero hero-women" id="women" aria-labelledby="women-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Parfum Le Zanne</p>
+        <h1 id="women-title">The Luxury Kitchen Collection</h1>
+        <a class="hero-link" href="#women-products">Explore Women</a>
+      </div>
+      <div class="hero-bottles" aria-hidden="true">
+        <div class="bottle"><span></span></div>
+        <div class="bottle bottle-tall"><span></span></div>
+        <div class="bottle"><span></span></div>
+        <div class="bottle bottle-tall"><span></span></div>
+      </div>
+    </section>
+
+    <section class="category-section" id="women-products">
+      <div class="section-heading">
+        <p class="eyebrow">Women</p>
+        <h2>Discover the collection</h2>
+        <div class="category-links">
+          <button class="active" data-filter="women-perfumes">Perfumes</button>
+          <button data-filter="women-creams">Creams</button>
+          <button data-filter="women-all">All Products</button>
+        </div>
+      </div>
+      <div class="product-grid" id="women-grid">
+        <article class="product-placeholder"><span>01</span><h3>Women Collection</h3><p>Product catalogue will be added next.</p></article>
+        <article class="product-placeholder"><span>02</span><h3>Luxury Fragrance</h3><p>Product catalogue will be added next.</p></article>
+        <article class="product-placeholder"><span>03</span><h3>Signature Scent</h3><p>Product catalogue will be added next.</p></article>
+      </div>
+    </section>
+
+    <section class="hero hero-men" id="men" aria-labelledby="men-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Parfum Le Zanne</p>
+        <h2 id="men-title">The Luxury Kitchen Collection</h2>
+        <a class="hero-link" href="#men-products">Explore Men</a>
+      </div>
+      <div class="hero-bottles" aria-hidden="true">
+        <div class="bottle"><span></span></div>
+        <div class="bottle bottle-tall"><span></span></div>
+        <div class="bottle"><span></span></div>
+        <div class="bottle bottle-tall"><span></span></div>
+      </div>
+    </section>
+
+    <section class="category-section" id="men-products">
+      <div class="section-heading">
+        <p class="eyebrow">Men</p>
+        <h2>Discover the collection</h2>
+        <div class="category-links">
+          <button class="active" data-filter="men-perfumes">Perfumes</button>
+          <button data-filter="men-creams">Creams</button>
+          <button data-filter="men-all">All Products</button>
+        </div>
+      </div>
+      <div class="product-grid" id="men-grid">
+        <article class="product-placeholder"><span>01</span><h3>Men Collection</h3><p>Product catalogue will be added next.</p></article>
+        <article class="product-placeholder"><span>02</span><h3>Luxury Fragrance</h3><p>Product catalogue will be added next.</p></article>
+        <article class="product-placeholder"><span>03</span><h3>Signature Scent</h3><p>Product catalogue will be added next.</p></article>
+      </div>
+    </section>
+
+    <section class="all-products" id="all-products">
+      <div class="section-heading">
+        <p class="eyebrow">All Products</p>
+        <h2>The complete collection</h2>
+        <p class="intro">All 67 products will appear here once the client catalogue is connected.</p>
+      </div>
+    </section>
+
+    <section class="art-of-scent" id="art-of-scent">
+      <div class="section-heading">
+        <p class="eyebrow">The Art of Scent</p>
+        <h2>Discover the art behind every fragrance.</h2>
+      </div>
+      <div class="scent-grid">
+        <article><h3>EAU DE TOILETTE</h3><p>Η πιο ανάλαφρη πλευρά της πολυτέλειας.</p></article>
+        <article><h3>EAU DE PARFUM</h3><p>Η πιο έντονη και εκλεπτυσμένη έκφραση του αρώματος.</p></article>
+        <article><h3>PARFUM</h3><p>Η απόλυτη έκφραση της αρωματικής πολυτέλειας.</p></article>
+        <article><h3>PERFUME ELIXIR</h3><p>Η πιο εκλεπτυσμένη μορφή της αρωματικής έντασης.</p></article>
+      </div>
+    </section>
+
+    <section class="simple-section" id="about"><p class="eyebrow">About us</p><h2>A modern fragrance house.</h2></section>
+    <section class="simple-section" id="contact"><p class="eyebrow">Contact</p><h2>We would love to hear from you.</h2></section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -218,17 +218,115 @@ modal.querySelectorAll('[data-size]').forEach((button) => {
   });
 });
 
+const bagModal = document.createElement('div');
+bagModal.className = 'bag-modal';
+bagModal.hidden = true;
+bagModal.innerHTML = `
+  <div class="bag-modal__backdrop" data-close-bag></div>
+  <aside class="bag-modal__drawer" role="dialog" aria-modal="true" aria-labelledby="bag-title">
+    <div class="bag-modal__header">
+      <div><p class="eyebrow">Le Zanne</p><h2 id="bag-title">Your Bag</h2></div>
+      <button class="bag-modal__close" type="button" aria-label="Close bag" data-close-bag>&times;</button>
+    </div>
+    <div class="bag-modal__items" data-bag-items></div>
+    <div class="bag-modal__footer">
+      <div class="bag-modal__subtotal"><span>Subtotal</span><strong data-bag-subtotal>0€</strong></div>
+      <button class="bag-modal__checkout" type="button" disabled>Checkout</button>
+      <p class="bag-modal__note">Checkout will be connected next.</p>
+    </div>
+  </aside>
+`;
+document.body.appendChild(bagModal);
+
+const bagItems = bagModal.querySelector('[data-bag-items]');
+const bagSubtotal = bagModal.querySelector('[data-bag-subtotal]');
+const bagCheckout = bagModal.querySelector('.bag-modal__checkout');
+
+const updateCartCount = () => { if (cartCount) cartCount.textContent = String(cart.reduce((total, item) => total + item.quantity, 0)); };
+
+const renderBag = () => {
+  if (!cart.length) {
+    bagItems.innerHTML = '<div class="bag-modal__empty"><span>—</span><h3>Your bag is empty</h3><p>Choose a fragrance to begin your order.</p></div>';
+    bagSubtotal.textContent = '0€';
+    bagCheckout.disabled = true;
+    return;
+  }
+
+  bagItems.innerHTML = cart.map((item, index) => `
+    <article class="bag-item">
+      <div class="bag-item__info">
+        <span class="bag-item__number">${String(index + 1).padStart(2, '0')}</span>
+        <h3>${item.product}</h3>
+        <p>${item.size} · ${item.type}</p>
+      </div>
+      <div class="bag-item__controls">
+        <div class="bag-item__quantity">
+          <button type="button" data-cart-minus="${index}" aria-label="Decrease quantity">−</button>
+          <span>${item.quantity}</span>
+          <button type="button" data-cart-plus="${index}" aria-label="Increase quantity">+</button>
+        </div>
+        <strong>${item.price * item.quantity}€</strong>
+        <button class="bag-item__remove" type="button" data-cart-remove="${index}">Remove</button>
+      </div>
+    </article>
+  `).join('');
+
+  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  bagSubtotal.textContent = `${subtotal}€`;
+  bagCheckout.disabled = false;
+
+  bagItems.querySelectorAll('[data-cart-minus]').forEach((button) => button.addEventListener('click', () => changeCartQuantity(Number(button.dataset.cartMinus), -1)));
+  bagItems.querySelectorAll('[data-cart-plus]').forEach((button) => button.addEventListener('click', () => changeCartQuantity(Number(button.dataset.cartPlus), 1)));
+  bagItems.querySelectorAll('[data-cart-remove]').forEach((button) => button.addEventListener('click', () => removeFromCart(Number(button.dataset.cartRemove))));
+};
+
+const openBag = () => {
+  renderBag();
+  bagModal.hidden = false;
+  document.body.classList.add('bag-modal-visible');
+};
+
+const closeBag = () => {
+  bagModal.hidden = true;
+  document.body.classList.remove('bag-modal-visible');
+};
+
+const changeCartQuantity = (index, delta) => {
+  if (!cart[index]) return;
+  cart[index].quantity += delta;
+  if (cart[index].quantity <= 0) cart.splice(index, 1);
+  updateCartCount();
+  renderBag();
+};
+
+const removeFromCart = (index) => {
+  if (!cart[index]) return;
+  cart.splice(index, 1);
+  updateCartCount();
+  renderBag();
+};
+
 addButton.addEventListener('click', () => {
   if (!selectedProduct || !selectedSize || !selectedType) return;
   const option = fragranceOptions[selectedSize].find((item) => item.label === selectedType);
   if (!option) return;
-  cart.push({ product: selectedProduct.name, size: selectedSize, type: selectedType, price: option.price });
-  if (cartCount) cartCount.textContent = String(cart.length);
+  const existing = cart.find((item) => item.product === selectedProduct.name && item.size === selectedSize && item.type === selectedType);
+  if (existing) existing.quantity += 1;
+  else cart.push({ product: selectedProduct.name, size: selectedSize, type: selectedType, price: option.price, quantity: 1 });
+  updateCartCount();
   addButton.textContent = 'Added to Bag';
-  setTimeout(() => { addButton.textContent = 'Add to Bag'; closeProductModal(); }, 700);
+  setTimeout(() => { addButton.textContent = 'Add to Bag'; closeProductModal(); }, 500);
 });
 
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeProductModal(); });
+bagModal.querySelectorAll('[data-close-bag]').forEach((element) => element.addEventListener('click', closeBag));
+if (cartButton) cartButton.addEventListener('click', openBag);
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (!modal.hidden) closeProductModal();
+    if (!bagModal.hidden) closeBag();
+  }
+});
 
 const scentTabs = document.querySelectorAll('.scent-tab');
 const closeScentModal = () => {
@@ -242,6 +340,7 @@ scentTabs.forEach((tab) => {
     const panel = document.getElementById(tab.getAttribute('aria-controls'));
     if (!panel) return;
     closeScentModal();
+    panel.querySelectorAll('.scent-modal-close').forEach((button) => button.remove());
     const closeButton = document.createElement('button');
     closeButton.type = 'button'; closeButton.className = 'scent-modal-close'; closeButton.setAttribute('aria-label', 'Close'); closeButton.innerHTML = '&times;'; closeButton.addEventListener('click', closeScentModal);
     panel.prepend(closeButton); panel.hidden = false; panel.classList.add('scent-modal-open'); tab.setAttribute('aria-expanded', 'true'); tab.classList.add('active'); document.body.classList.add('scent-modal-visible');
@@ -258,8 +357,4 @@ kitchenButtons.forEach((button) => {
     kitchenButtons.forEach((item) => { const selected = item.dataset.kitchenFinish === finish; item.classList.toggle('active', selected); item.setAttribute('aria-pressed', String(selected)); });
     kitchenImages.forEach((image) => { image.hidden = image.dataset.kitchenImage !== finish; });
   });
-});
-
-if (cartButton) cartButton.addEventListener('click', () => {
-  alert(cart.length ? `Your bag contains ${cart.length} item${cart.length === 1 ? '' : 's'}.` : 'Your shopping bag is empty.');
 });

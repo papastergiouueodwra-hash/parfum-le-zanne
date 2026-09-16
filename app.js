@@ -1,61 +1,32 @@
 const womenProducts = [
-  'Alien mugler',
-  'Black opium',
-  'Coconut passion.',
-  'Carolina herrera good girl',
-  'Dior hypnotic poison',
-  'La vie est belle lancome',
-  'Burberry london',
-  'Love spell victoria secret',
-  'Spectra pink shell',
-  'Jo malone london pear and freesia',
-  'Summer girl Tommy hilfiger',
-  'Rose prick tom ford',
-  'Gabrielle Chanel paris',
-  'Jean paul gaultier scandal',
-  'Paco rabanne pure Xs',
-  'Dior joy',
-  'Gucci bloom',
-  'Black orchid tom ford',
-  'Chanel coco mademoiselle',
-  'Giorgio armani si passione',
-  'Narciso ambree',
-  'Angel gold victoria secret',
-  'Chanel no 5',
-  'Dolce gabbana light blue',
-  'Bella vince camuto',
-  'Pure musc for her narciso rodriguez',
-  'Lancome idole',
-  'Armani my way',
-  'Burberry her burberry',
-  'Dior jadore',
-  'Be giddy black opium ysl',
-  'Barby my barberry',
-  'Channel no5',
-  'Coconut passion vs',
-  'Idole lancome',
-  'Golden scent',
-  'Good girl carolina herrera',
-  'Jennifer Lopez blow',
-  'Armani my way',
-  'Olympia paco rabanne',
-  'Scandal per femme',
-  'Jadore Adorable'
+  'Alien mugler', 'Black opium', 'Coconut passion.', 'Carolina herrera good girl',
+  'Dior hypnotic poison', 'La vie est belle lancome', 'Burberry london', 'Love spell victoria secret',
+  'Spectra pink shell', 'Jo malone london pear and freesia', 'Summer girl Tommy hilfiger', 'Rose prick tom ford',
+  'Gabrielle Chanel paris', 'Jean paul gaultier scandal', 'Paco rabanne pure Xs', 'Dior joy',
+  'Gucci bloom', 'Black orchid tom ford', 'Chanel coco mademoiselle', 'Giorgio armani si passione',
+  'Narciso ambree', 'Angel gold victoria secret', 'Chanel no 5', 'Dolce gabbana light blue',
+  'Bella vince camuto', 'Pure musc for her narciso rodriguez', 'Lancome idole', 'Armani my way',
+  'Burberry her burberry', 'Dior jadore', 'Be giddy black opium ysl', 'Barby my barberry',
+  'Channel no5', 'Coconut passion vs', 'Idole lancome', 'Golden scent',
+  'Good girl carolina herrera', 'Jennifer Lopez blow', 'Armani my way', 'Olympia paco rabanne',
+  'Scandal per femme', 'Jadore Adorable'
 ].map((name) => ({ name, type: null }));
 
 const renderWomenProducts = (filter) => {
   const grid = document.getElementById('women-grid');
   if (!grid) return;
 
+  const type = filter === 'women-perfumes' ? 'perfume' : filter === 'women-creams' ? 'cream' : null;
   const filtered = filter === 'women-all'
     ? womenProducts
-    : womenProducts.filter((product) => product.type === filter.replace('women-', '').replace('s', ''));
+    : womenProducts.filter((product) => product.type === type);
 
   if (!filtered.length) {
+    const title = filter === 'women-perfumes' ? 'Perfumes' : 'Creams';
     const message = filter === 'women-perfumes'
       ? 'Τα γυναικεία αρώματα θα προστεθούν εδώ.'
       : 'Οι γυναικείες κρέμες θα προστεθούν εδώ.';
-    grid.innerHTML = `<article class="product-placeholder"><span>—</span><h3>${filter === 'women-perfumes' ? 'Perfumes' : 'Creams'}</h3><p>${message}</p></article>`;
+    grid.innerHTML = `<article class="product-placeholder"><span>—</span><h3>${title}</h3><p>${message}</p></article>`;
     return;
   }
 
@@ -79,7 +50,8 @@ document.querySelectorAll('.category-links button').forEach((button) => {
   });
 });
 
-renderWomenProducts('women-all');
+const womenAllButton = document.querySelector('.category-links button[data-filter="women-all"]');
+if (womenAllButton) womenAllButton.click();
 
 const scentTabs = document.querySelectorAll('.scent-tab');
 const closeScentModal = () => {

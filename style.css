@@ -12,13 +12,20 @@
 
 @media(max-width:900px){.site-header{height:auto;min-height:72px;padding:16px 5vw;gap:15px;background:#000}.main-nav{gap:12px;flex-wrap:wrap;justify-content:flex-end}.main-nav a{font-size:9px}.brand{font-size:25px}.main-nav a:hover{color:#d4af68}.cart-button{display:block}.kitchen-showcase__copy{left:6%;top:18%;transform:none;max-width:430px}.kitchen-showcase__copy h1,.kitchen-showcase__copy h2{font-size:58px}.showcase-bottles{left:53%;bottom:7%;width:64vw;height:39%;gap:9px}.showcase-bottle{width:48px;height:118px}.showcase-bottle--short{height:98px}.showcase-bottle--tall{height:132px;width:52px}.showcase-bottle i{width:24px;height:22px;top:-22px}.showcase-bottle span{font-size:5px}.product-grid{grid-template-columns:1fr}.scent-grid{grid-template-columns:1fr}.section-heading h2{font-size:46px}}@media(max-width:600px){.site-header{align-items:flex-start}.brand{flex-shrink:0}.main-nav{gap:8px}.cart-button{display:none}.kitchen-showcase__frame{aspect-ratio:4/5;min-height:610px}.kitchen-showcase__image{top:-8%;left:-10%;width:142%;min-height:138%;object-position:12% 72%;transform:scale(1.06)}.kitchen-showcase--men .kitchen-showcase__image{top:-10%;left:-15%;width:150%;object-position:10% 74%;transform:scale(1.08)}.kitchen-showcase__copy{left:7%;right:7%;top:8%;max-width:none}.kitchen-showcase__copy h1,.kitchen-showcase__copy h2{font-size:48px}.showcase-bottles{left:54%;bottom:6%;width:82vw;height:37%;transform:translateX(-7%);gap:6px}.showcase-bottle{width:38px;height:95px}.showcase-bottle--short{height:79px}.showcase-bottle--tall{height:109px;width:42px}.showcase-bottle i{width:19px;height:18px;top:-18px}.showcase-bottle span{font-size:4px;left:3px;right:3px;padding:5px 1px}.kitchen-showcase__counter-overlay{background:linear-gradient(180deg,rgba(0,0,0,.48) 0%,rgba(0,0,0,.08) 42%,rgba(0,0,0,.02) 68%),linear-gradient(90deg,rgba(0,0,0,.44),transparent 72%)}.kitchen-showcase__counter-overlay:after{height:46%;clip-path:polygon(0 20%,100% 0,100% 100%,0 100%)}.simple-section,.all-products,.art-of-scent{padding:90px 7vw}}
 
-/* The Art of Scent — elegant clickable accordion */
-.scent-grid{background:rgba(212,175,104,.32);border-top:1px solid rgba(212,175,104,.32);border-left:1px solid rgba(212,175,104,.32)}
-.scent-grid article{border-right:1px solid rgba(212,175,104,.32);border-bottom:1px solid rgba(212,175,104,.32)}
-.scent-tab{position:relative;min-height:120px;padding:34px 38px}
-.scent-tab span{position:relative}
-.scent-tab span:after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:1px;background:rgba(212,175,104,0);transition:background .25s ease}
-.scent-tab:hover span:after,.scent-tab.active span:after{background:rgba(212,175,104,.7)}
-.scent-panel{animation:scentReveal .35s ease both}
-@keyframes scentReveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:600px){.scent-tab{min-height:100px;padding:28px 24px}.scent-panel{padding:0 24px 28px}.scent-panel p{font-size:22px;margin-top:22px}}
+/* The Art of Scent — premium black pop-up panels */
+.scent-grid{background:rgba(212,175,104,.18);border:1px solid rgba(212,175,104,.16)}
+.scent-grid article{border:0;background:#000}
+.scent-tab{position:relative;min-height:120px;padding:34px 38px;background:#000;color:#fff}
+.scent-tab span{position:relative;font-family:'Cormorant Garamond',serif;font-size:16px;letter-spacing:.18em;font-weight:500}
+.scent-tab span:after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:1px;background:transparent;transition:background .25s ease}
+.scent-tab:hover span:after,.scent-tab.active span:after{background:rgba(212,175,104,.72)}
+.scent-tab:hover,.scent-tab.active{color:#fff;background:#000}
+.scent-tab b{font-size:24px;color:#d4af68;font-weight:300}
+.scent-panel.scent-modal-open{position:fixed;z-index:100;top:50%;left:50%;width:min(900px,88vw);max-height:82vh;overflow-y:auto;transform:translate(-50%,-50%);padding:62px 64px 48px;background:#000;color:#fff;border:1px solid rgba(212,175,104,.48);box-shadow:0 0 0 100vmax rgba(0,0,0,.82),0 22px 80px rgba(0,0,0,.65);animation:scentModalReveal .28s ease both}
+.scent-modal-close{position:absolute;top:18px;right:22px;width:30px;height:30px;border:0;background:transparent;color:#d4af68;font:300 30px/1 Arial,sans-serif;cursor:pointer;padding:0;transition:transform .2s ease,color .2s ease}
+.scent-modal-close:hover{color:#fff;transform:rotate(90deg)}
+.scent-panel.scent-modal-open p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:25px;line-height:1.45;letter-spacing:.01em;color:#fff;margin:0 0 22px}
+.scent-panel.scent-modal-open p:first-of-type{font-style:normal;font-size:29px;line-height:1.25;color:#fff;margin-bottom:30px}
+body.scent-modal-visible{overflow:hidden}
+@keyframes scentModalReveal{from{opacity:0;transform:translate(-50%,-47%) scale(.985)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media(max-width:600px){.scent-tab{min-height:100px;padding:28px 24px}.scent-tab span{font-size:14px}.scent-panel.scent-modal-open{width:90vw;max-height:84vh;padding:56px 28px 34px}.scent-panel.scent-modal-open p{font-size:22px;line-height:1.42;margin-bottom:20px}.scent-panel.scent-modal-open p:first-of-type{font-size:26px;margin-bottom:24px}.scent-modal-close{top:14px;right:16px}}

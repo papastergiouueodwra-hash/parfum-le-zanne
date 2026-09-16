@@ -10,7 +10,7 @@ const womenProducts = [
   'Channel no5', 'Coconut passion vs', 'Idole lancome', 'Golden scent',
   'Good girl carolina herrera', 'Jennifer Lopez blow', 'Armani my way', 'Olympia paco rabanne',
   'Scandal per femme', 'Jadore Adorable'
-].map((name) => ({ name, type: null }));
+].map((name) => ({ name, type: null, price: null, size: null, image: null }));
 
 const menProducts = [
   'Angel mugler', 'Cool water', 'Tobacco and woods jesus del pozo', 'Tobacco vanille tom ford',
@@ -19,16 +19,31 @@ const menProducts = [
   'Dolce & gabbana K', 'Aqua di gio giordani armani', 'Stronger with you armani', 'Black code armani',
   'The one for men dolce gabana', 'Intense homme dior', 'Invictus paco rabbane', 'One million paco rabanne',
   'Phantom paco rabanne'
-].map((name) => ({ name, type: null }));
+].map((name) => ({ name, type: null, price: null, size: null, image: null }));
+
+const createProductCard = (product, index) => `
+  <article class="product-card">
+    <div class="product-card__image">
+      ${product.image ? `<img src="${product.image}" alt="${product.name}" loading="lazy">` : '<span class="product-card__image-placeholder">Photo coming soon</span>'}
+    </div>
+    <div class="product-card__body">
+      <span class="product-card__number">${String(index + 1).padStart(2, '0')}</span>
+      <h3 class="product-card__name">${product.name}</h3>
+      <div class="product-card__meta">
+        <span class="product-card__price">${product.price ?? '— €'}</span>
+        <span class="product-card__size">${product.size ?? '— ml'}</span>
+      </div>
+      <button class="product-card__action" type="button" disabled aria-disabled="true">Add to Bag</button>
+    </div>
+  </article>
+`;
 
 const renderProductCollection = (gridId, products, filter, genderLabel) => {
   const grid = document.getElementById(gridId);
   if (!grid) return;
 
   const type = filter.endsWith('-perfumes') ? 'perfume' : filter.endsWith('-creams') ? 'cream' : null;
-  const filtered = filter.endsWith('-all')
-    ? products
-    : products.filter((product) => product.type === type);
+  const filtered = filter.endsWith('-all') ? products : products.filter((product) => product.type === type);
 
   if (!filtered.length) {
     const title = filter.endsWith('-perfumes') ? 'Perfumes' : 'Creams';
@@ -39,12 +54,7 @@ const renderProductCollection = (gridId, products, filter, genderLabel) => {
     return;
   }
 
-  grid.innerHTML = filtered.map((product, index) => `
-    <article class="product-placeholder">
-      <span>${String(index + 1).padStart(2, '0')}</span>
-      <h3>${product.name}</h3>
-    </article>
-  `).join('');
+  grid.innerHTML = filtered.map(createProductCard).join('');
 };
 
 const renderWomenProducts = (filter) => renderProductCollection('women-grid', womenProducts, filter, 'γυναικεία');
@@ -55,31 +65,20 @@ document.querySelectorAll('.category-links button').forEach((button) => {
     const group = button.parentElement;
     group.querySelectorAll('button').forEach((item) => item.classList.remove('active'));
     button.classList.add('active');
-
-    if (button.dataset.filter.startsWith('women-')) {
-      renderWomenProducts(button.dataset.filter);
-    } else if (button.dataset.filter.startsWith('men-')) {
-      renderMenProducts(button.dataset.filter);
-    }
+    if (button.dataset.filter.startsWith('women-')) renderWomenProducts(button.dataset.filter);
+    else if (button.dataset.filter.startsWith('men-')) renderMenProducts(button.dataset.filter);
   });
 });
 
 const womenAllButton = document.querySelector('.category-links button[data-filter="women-all"]');
 if (womenAllButton) womenAllButton.click();
-
 const menAllButton = document.querySelector('.category-links button[data-filter="men-all"]');
 if (menAllButton) menAllButton.click();
 
 const scentTabs = document.querySelectorAll('.scent-tab');
 const closeScentModal = () => {
-  document.querySelectorAll('.scent-panel.scent-modal-open').forEach((panel) => {
-    panel.classList.remove('scent-modal-open');
-    panel.hidden = true;
-  });
-  scentTabs.forEach((item) => {
-    item.setAttribute('aria-expanded', 'false');
-    item.classList.remove('active');
-  });
+  document.querySelectorAll('.scent-panel.scent-modal-open').forEach((panel) => { panel.classList.remove('scent-modal-open'); panel.hidden = true; });
+  scentTabs.forEach((item) => { item.setAttribute('aria-expanded', 'false'); item.classList.remove('active'); });
   document.body.classList.remove('scent-modal-visible');
 };
 
@@ -87,51 +86,24 @@ scentTabs.forEach((tab) => {
   tab.addEventListener('click', () => {
     const panel = document.getElementById(tab.getAttribute('aria-controls'));
     if (!panel) return;
-
     closeScentModal();
-
     const closeButton = document.createElement('button');
-    closeButton.type = 'button';
-    closeButton.className = 'scent-modal-close';
-    closeButton.setAttribute('aria-label', 'Close');
-    closeButton.innerHTML = '&times;';
-    closeButton.addEventListener('click', closeScentModal);
-
-    panel.prepend(closeButton);
-    panel.hidden = false;
-    panel.classList.add('scent-modal-open');
-    tab.setAttribute('aria-expanded', 'true');
-    tab.classList.add('active');
-    document.body.classList.add('scent-modal-visible');
+    closeButton.type = 'button'; closeButton.className = 'scent-modal-close'; closeButton.setAttribute('aria-label', 'Close'); closeButton.innerHTML = '&times;'; closeButton.addEventListener('click', closeScentModal);
+    panel.prepend(closeButton); panel.hidden = false; panel.classList.add('scent-modal-open'); tab.setAttribute('aria-expanded', 'true'); tab.classList.add('active'); document.body.classList.add('scent-modal-visible');
   });
 });
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeScentModal();
-});
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeScentModal(); });
 
 const kitchenButtons = document.querySelectorAll('[data-kitchen-finish]');
 const kitchenImages = document.querySelectorAll('[data-kitchen-image]');
-
 kitchenButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const finish = button.dataset.kitchenFinish;
-
-    kitchenButtons.forEach((item) => {
-      const selected = item.dataset.kitchenFinish === finish;
-      item.classList.toggle('active', selected);
-      item.setAttribute('aria-pressed', String(selected));
-    });
-
-    kitchenImages.forEach((image) => {
-      image.hidden = image.dataset.kitchenImage !== finish;
-    });
+    kitchenButtons.forEach((item) => { const selected = item.dataset.kitchenFinish === finish; item.classList.toggle('active', selected); item.setAttribute('aria-pressed', String(selected)); });
+    kitchenImages.forEach((image) => { image.hidden = image.dataset.kitchenImage !== finish; });
   });
 });
 
 const cartButton = document.querySelector('.cart-button');
-if (cartButton) {
-  cartButton.addEventListener('click', () => {
-    alert('Your shopping bag will be connected next.');
-  });
-}
+if (cartButton) cartButton.addEventListener('click', () => { alert('Your shopping bag will be connected next.'); });

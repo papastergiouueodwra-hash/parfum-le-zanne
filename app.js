@@ -12,20 +12,29 @@ const womenProducts = [
   'Scandal per femme', 'Jadore Adorable'
 ].map((name) => ({ name, type: null }));
 
-const renderWomenProducts = (filter) => {
-  const grid = document.getElementById('women-grid');
+const menProducts = [
+  'Angel mugler', 'Cool water', 'Tobacco and woods jesus del pozo', 'Tobacco vanille tom ford',
+  'Obre leather tom ford', 'Woody mystery', 'Dior sauvage', 'Stronger with you armani',
+  'Aventus creed', 'Invictus intense', 'Bad boy carolina herrera', 'Jean paul gaultier le male',
+  'Dolce & gabbana K', 'Aqua di gio giordani armani', 'Stronger with you armani', 'Black code armani',
+  'The one for men dolce gabana', 'Intense homme dior', 'Invictus paco rabbane', 'One million paco rabanne',
+  'Phantom paco rabanne'
+].map((name) => ({ name, type: null }));
+
+const renderProductCollection = (gridId, products, filter, genderLabel) => {
+  const grid = document.getElementById(gridId);
   if (!grid) return;
 
-  const type = filter === 'women-perfumes' ? 'perfume' : filter === 'women-creams' ? 'cream' : null;
-  const filtered = filter === 'women-all'
-    ? womenProducts
-    : womenProducts.filter((product) => product.type === type);
+  const type = filter.endsWith('-perfumes') ? 'perfume' : filter.endsWith('-creams') ? 'cream' : null;
+  const filtered = filter.endsWith('-all')
+    ? products
+    : products.filter((product) => product.type === type);
 
   if (!filtered.length) {
-    const title = filter === 'women-perfumes' ? 'Perfumes' : 'Creams';
-    const message = filter === 'women-perfumes'
-      ? 'Τα γυναικεία αρώματα θα προστεθούν εδώ.'
-      : 'Οι γυναικείες κρέμες θα προστεθούν εδώ.';
+    const title = filter.endsWith('-perfumes') ? 'Perfumes' : 'Creams';
+    const message = filter.endsWith('-perfumes')
+      ? `Τα ${genderLabel.toLowerCase()} αρώματα θα προστεθούν εδώ.`
+      : `Οι ${genderLabel.toLowerCase()} κρέμες θα προστεθούν εδώ.`;
     grid.innerHTML = `<article class="product-placeholder"><span>—</span><h3>${title}</h3><p>${message}</p></article>`;
     return;
   }
@@ -38,6 +47,9 @@ const renderWomenProducts = (filter) => {
   `).join('');
 };
 
+const renderWomenProducts = (filter) => renderProductCollection('women-grid', womenProducts, filter, 'γυναικεία');
+const renderMenProducts = (filter) => renderProductCollection('men-grid', menProducts, filter, 'αντρικά');
+
 document.querySelectorAll('.category-links button').forEach((button) => {
   button.addEventListener('click', () => {
     const group = button.parentElement;
@@ -46,12 +58,17 @@ document.querySelectorAll('.category-links button').forEach((button) => {
 
     if (button.dataset.filter.startsWith('women-')) {
       renderWomenProducts(button.dataset.filter);
+    } else if (button.dataset.filter.startsWith('men-')) {
+      renderMenProducts(button.dataset.filter);
     }
   });
 });
 
 const womenAllButton = document.querySelector('.category-links button[data-filter="women-all"]');
 if (womenAllButton) womenAllButton.click();
+
+const menAllButton = document.querySelector('.category-links button[data-filter="men-all"]');
+if (menAllButton) menAllButton.click();
 
 const scentTabs = document.querySelectorAll('.scent-tab');
 const closeScentModal = () => {

@@ -85,7 +85,7 @@
 /* Temporary product-area background test: one shared image for Women and Men only. */
 #women-products,
 #men-products{
-  background-image:url('images/backround%20D.jpg') !important;
+  background-image:url('images/backround-D-upscaled-4x.png') !important;
   background-size:100% auto !important;
   background-position:center top !important;
   background-repeat:repeat-y !important;

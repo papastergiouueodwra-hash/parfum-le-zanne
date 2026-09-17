@@ -81,6 +81,16 @@
 .kitchen-showcase--men .hero-link{border-bottom-color:#C99A2E !important;}
 .kitchen-showcase--women .kitchen-showcase__copy h1,
 .kitchen-showcase--men .kitchen-showcase__copy h2{font-weight:400 !important;}
+
+/* Temporary product-area background test: one shared image for Women and Men only. */
+#women-products,
+#men-products{
+  background-image:url('images/backround%20D.jpg') !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+}
+
 @media(max-width:600px){
   .kitchen-showcase--women .kitchen-showcase__frame,
   .kitchen-showcase--men .kitchen-showcase__frame{aspect-ratio:4/1 !important;min-height:0 !important;}

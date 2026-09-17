@@ -86,9 +86,9 @@
 #women-products,
 #men-products{
   background-image:url('images/backround%20D.jpg') !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
+  background-size:contain !important;
+  background-position:center top !important;
+  background-repeat:repeat-y !important;
 }
 
 @media(max-width:600px){

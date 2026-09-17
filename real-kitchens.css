@@ -27,9 +27,7 @@
 .kitchen-showcase__counter-overlay{
   background:linear-gradient(90deg,rgba(0,0,0,.52) 0%,rgba(0,0,0,.18) 28%,rgba(0,0,0,0) 62%) !important;
 }
-.kitchen-showcase__counter-overlay:after{
-  display:none !important;
-}
+.kitchen-showcase__counter-overlay:after{display:none !important;}
 .kitchen-showcase--women .kitchen-showcase__counter-overlay{
   background:linear-gradient(90deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.08) 34%,rgba(0,0,0,0) 65%) !important;
 }
@@ -60,9 +58,7 @@
 .kitchen-showcase--women .kitchen-showcase__image,
 .kitchen-showcase--men .kitchen-showcase__image,
 .kitchen-showcase--women .kitchen-showcase__counter-overlay,
-.kitchen-showcase--men .kitchen-showcase__counter-overlay{
-  display:none !important;
-}
+.kitchen-showcase--men .kitchen-showcase__counter-overlay{display:none !important;}
 .kitchen-showcase--women .kitchen-showcase__copy,
 .kitchen-showcase--men .kitchen-showcase__copy{
   text-shadow:none !important;
@@ -77,38 +73,21 @@
 .kitchen-showcase--men .kitchen-showcase__copy .eyebrow,
 .kitchen-showcase--men .kitchen-showcase__copy h2,
 .kitchen-showcase--men .hero-link{
-  color:#d4af68 !important;
+  color:#C99A2E !important;
   font-family:'Brush Script MT','Segoe Script','Lucida Handwriting',cursive !important;
+  text-shadow:0 0 1px rgba(201,154,46,.45) !important;
 }
 .kitchen-showcase--women .hero-link,
-.kitchen-showcase--men .hero-link{
-  border-bottom-color:#d4af68 !important;
-}
+.kitchen-showcase--men .hero-link{border-bottom-color:#C99A2E !important;}
 .kitchen-showcase--women .kitchen-showcase__copy h1,
-.kitchen-showcase--men .kitchen-showcase__copy h2{
-  font-weight:400 !important;
-}
+.kitchen-showcase--men .kitchen-showcase__copy h2{font-weight:400 !important;}
 @media(max-width:600px){
   .kitchen-showcase--women .kitchen-showcase__frame,
-  .kitchen-showcase--men .kitchen-showcase__frame{
-    aspect-ratio:4/1 !important;
-    min-height:0 !important;
-  }
+  .kitchen-showcase--men .kitchen-showcase__frame{aspect-ratio:4/1 !important;min-height:0 !important;}
   .kitchen-showcase--women .kitchen-showcase__copy,
-  .kitchen-showcase--men .kitchen-showcase__copy{
-    left:5% !important;
-    right:5% !important;
-    top:50% !important;
-    max-width:none !important;
-  }
+  .kitchen-showcase--men .kitchen-showcase__copy{left:5% !important;right:5% !important;top:50% !important;max-width:none !important;}
   .kitchen-showcase--women .kitchen-showcase__copy h1,
-  .kitchen-showcase--men .kitchen-showcase__copy h2{
-    font-size:clamp(25px,8vw,42px) !important;
-    margin-bottom:12px !important;
-  }
+  .kitchen-showcase--men .kitchen-showcase__copy h2{font-size:clamp(25px,8vw,42px) !important;margin-bottom:12px !important;}
   .kitchen-showcase--women .kitchen-showcase__copy .eyebrow,
-  .kitchen-showcase--men .kitchen-showcase__copy .eyebrow{
-    margin-bottom:6px !important;
-    font-size:9px !important;
-  }
+  .kitchen-showcase--men .kitchen-showcase__copy .eyebrow{margin-bottom:6px !important;font-size:9px !important;}
 }

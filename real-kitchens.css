@@ -51,9 +51,11 @@
 /* Temporary hero test: replace only the Women/Men kitchen visuals. */
 .kitchen-showcase--women .kitchen-showcase__frame{
   background:#fff !important;
+  aspect-ratio:7/1 !important;
 }
 .kitchen-showcase--men .kitchen-showcase__frame{
   background:#000 !important;
+  aspect-ratio:7/1 !important;
 }
 .kitchen-showcase--women .kitchen-showcase__image,
 .kitchen-showcase--men .kitchen-showcase__image,
@@ -64,6 +66,10 @@
 .kitchen-showcase--women .kitchen-showcase__copy,
 .kitchen-showcase--men .kitchen-showcase__copy{
   text-shadow:none !important;
+  left:6% !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  max-width:900px !important;
 }
 .kitchen-showcase--women .kitchen-showcase__copy .eyebrow,
 .kitchen-showcase--women .kitchen-showcase__copy h1,
@@ -81,4 +87,28 @@
 .kitchen-showcase--women .kitchen-showcase__copy h1,
 .kitchen-showcase--men .kitchen-showcase__copy h2{
   font-weight:400 !important;
+}
+@media(max-width:600px){
+  .kitchen-showcase--women .kitchen-showcase__frame,
+  .kitchen-showcase--men .kitchen-showcase__frame{
+    aspect-ratio:4/1 !important;
+    min-height:0 !important;
+  }
+  .kitchen-showcase--women .kitchen-showcase__copy,
+  .kitchen-showcase--men .kitchen-showcase__copy{
+    left:5% !important;
+    right:5% !important;
+    top:50% !important;
+    max-width:none !important;
+  }
+  .kitchen-showcase--women .kitchen-showcase__copy h1,
+  .kitchen-showcase--men .kitchen-showcase__copy h2{
+    font-size:clamp(25px,8vw,42px) !important;
+    margin-bottom:12px !important;
+  }
+  .kitchen-showcase--women .kitchen-showcase__copy .eyebrow,
+  .kitchen-showcase--men .kitchen-showcase__copy .eyebrow{
+    margin-bottom:6px !important;
+    font-size:9px !important;
+  }
 }

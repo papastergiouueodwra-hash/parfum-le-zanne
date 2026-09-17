@@ -47,3 +47,38 @@
   .kitchen-showcase__image,.kitchen-showcase--men .kitchen-showcase__image{object-position:center center !important;}
   .showcase-bottles{left:50% !important;width:86vw !important;}
 }
+
+/* Temporary hero test: replace only the Women/Men kitchen visuals. */
+.kitchen-showcase--women .kitchen-showcase__frame{
+  background:#fff !important;
+}
+.kitchen-showcase--men .kitchen-showcase__frame{
+  background:#000 !important;
+}
+.kitchen-showcase--women .kitchen-showcase__image,
+.kitchen-showcase--men .kitchen-showcase__image,
+.kitchen-showcase--women .kitchen-showcase__counter-overlay,
+.kitchen-showcase--men .kitchen-showcase__counter-overlay{
+  display:none !important;
+}
+.kitchen-showcase--women .kitchen-showcase__copy,
+.kitchen-showcase--men .kitchen-showcase__copy{
+  text-shadow:none !important;
+}
+.kitchen-showcase--women .kitchen-showcase__copy .eyebrow,
+.kitchen-showcase--women .kitchen-showcase__copy h1,
+.kitchen-showcase--women .hero-link,
+.kitchen-showcase--men .kitchen-showcase__copy .eyebrow,
+.kitchen-showcase--men .kitchen-showcase__copy h2,
+.kitchen-showcase--men .hero-link{
+  color:#d4af68 !important;
+  font-family:'Brush Script MT','Segoe Script','Lucida Handwriting',cursive !important;
+}
+.kitchen-showcase--women .hero-link,
+.kitchen-showcase--men .hero-link{
+  border-bottom-color:#d4af68 !important;
+}
+.kitchen-showcase--women .kitchen-showcase__copy h1,
+.kitchen-showcase--men .kitchen-showcase__copy h2{
+  font-weight:400 !important;
+}

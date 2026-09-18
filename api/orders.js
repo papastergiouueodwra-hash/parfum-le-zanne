@@ -56,6 +56,28 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ orders, items });
     }
 
+    if (req.method === 'PATCH') {
+      if (!isAuthorized(req)) return res.status(401).json({ error: 'Unauthorized.' });
+      const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+      const orderId = Number(body?.orderId);
+      const status = body?.status;
+      const allowedStatuses = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
+
+      if (!Number.isInteger(orderId) || !allowedStatuses.includes(status)) {
+        return res.status(400).json({ error: 'Invalid order status update.' });
+      }
+
+      const rows = await sql`
+        UPDATE orders
+        SET status = ${status}
+        WHERE id = ${orderId}
+        RETURNING id, order_number, status
+      `;
+
+      if (!rows.length) return res.status(404).json({ error: 'Order not found.' });
+      return res.status(200).json({ success: true, order: rows[0] });
+    }
+
     if (req.method === 'POST') {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       const customer = body?.customer || {};
@@ -122,7 +144,7 @@ module.exports = async function handler(req, res) {
       return res.status(201).json({ success: true, orderId: orderRows[0].order_number });
     }
 
-    res.setHeader('Allow', 'GET, POST');
+    res.setHeader('Allow', 'GET, POST, PATCH');
     return res.status(405).json({ error: 'Method not allowed.' });
   } catch (error) {
     console.error(error);

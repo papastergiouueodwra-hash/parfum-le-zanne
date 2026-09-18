@@ -2,9 +2,24 @@ const { neon } = require('@neondatabase/serverless');
 
 const sql = neon(process.env.DATABASE_URL);
 
+function isAuthorized(req) {
+  const password = process.env.ADMIN_PASSWORD;
+  if (!password) return false;
+  const cookies = req.headers.cookie || '';
+  const match = cookies.match(/(?:^|;\\s*)lz_admin=([^;]+)/);
+  if (!match) return false;
+  const parts = decodeURIComponent(match[1]).split('.');
+  if (parts.length !== 2) return false;
+  const expires = Number(parts[0]);
+  if (!Number.isFinite(expires) || expires < Date.now()) return false;
+  const expected = require('crypto').createHmac('sha256', password).update(String(expires)).digest('hex');
+  return parts[1] === expected;
+}
+
 module.exports = async function handler(req, res) {
   try {
     if (req.method === 'GET') {
+      if (!isAuthorized(req)) return res.status(401).json({ error: 'Unauthorized.' });
       const orders = await sql`
         SELECT
           o.id,

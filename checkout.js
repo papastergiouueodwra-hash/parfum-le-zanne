@@ -3,7 +3,6 @@ const itemsEl = document.getElementById('checkout-items');
 const subtotalEl = document.getElementById('checkout-subtotal');
 const totalEl = document.getElementById('checkout-total');
 const deliveryEl = document.getElementById('checkout-delivery');
-const freeShippingNoteEl = document.getElementById('free-shipping-note');
 const form = document.getElementById('checkout-form');
 const success = document.getElementById('order-success');
 
@@ -16,7 +15,6 @@ if(!cart.length){
   itemsEl.innerHTML=cart.map(item=>`<article class="summary-item"><h3>${item.product}</h3><p>${item.size} · ${item.type} · Qty ${item.quantity}</p><strong>${Number(item.price)*Number(item.quantity)}€</strong></article>`).join('');
 }
 deliveryEl.textContent=delivery === 0 ? 'Δωρεάν' : '3,50€';
-freeShippingNoteEl.textContent = subtotal >= 50 ? 'Έχεις δωρεάν μεταφορικά!' : 'Δωρεάν μεταφορικά για παραγγελίες άνω των 50€';
 subtotalEl.textContent=`${subtotal.toFixed(2).replace('.',',')}€`;
 totalEl.textContent=`${total.toFixed(2).replace('.',',')}€`;
 

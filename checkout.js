@@ -18,7 +18,10 @@ form.addEventListener('submit',(event)=>{
   event.preventDefault();
   if(!cart.length){ alert('Your bag is empty.'); return; }
   const data=Object.fromEntries(new FormData(form).entries());
-  const order={customer:data,items:cart,subtotal,total:subtotal,createdAt:new Date().toISOString()};
+  const order={id:`LZ-${Date.now().toString().slice(-8)}`,customer:data,items:cart,subtotal,total:subtotal,paymentMethod:'Demo / not connected',status:'Pending',createdAt:new Date().toISOString()};
+  const orders=JSON.parse(localStorage.getItem('leZanneOrders')||'[]');
+  orders.unshift(order);
+  localStorage.setItem('leZanneOrders',JSON.stringify(orders));
   localStorage.setItem('leZanneLastOrder',JSON.stringify(order));
   success.hidden=false;
   localStorage.removeItem('leZanneCart');

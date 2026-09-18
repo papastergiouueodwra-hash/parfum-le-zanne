@@ -19,7 +19,11 @@
 <div class="detail" id="detail" hidden><aside class="panel"><div class="panel-head"><div><p class="gold" id="detail-id"></p><h2>Order details</h2></div><button class="close" id="close" aria-label="Close">&times;</button></div><div class="detail-grid" id="detail-customer"></div><div class="detail-products" id="detail-products"></div><div class="detail-total"><span>Total</span><strong id="detail-total">0,00€</strong></div></aside></div>
 <script>
 const euro=n=>Number(n||0).toLocaleString('el-GR',{style:'currency',currency:'EUR'});
-const login=document.getElementById('login');\nconst app=document.getElementById('app');\nconst loginForm=document.getElementById('login-form');\nconst loginPassword=document.getElementById('login-password');\nconst loginError=document.getElementById('login-error');
+const login=document.getElementById('login');
+const app=document.getElementById('app');
+const loginForm=document.getElementById('login-form');
+const loginPassword=document.getElementById('login-password');
+const loginError=document.getElementById('login-error');
 
 function showApp(){login.style.display='none';app.classList.remove('locked');}
 

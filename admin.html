@@ -18,7 +18,23 @@
 </main>
 <div class="detail" id="detail" hidden><aside class="panel"><div class="panel-head"><div><p class="gold" id="detail-id"></p><h2>Order details</h2></div><button class="close" id="close" aria-label="Close">&times;</button></div><div class="detail-grid" id="detail-customer"></div><div class="detail-products" id="detail-products"></div><div class="detail-total"><span>Total</span><strong id="detail-total">0,00€</strong></div></aside></div>
 <script>
-const euro=n=>Number(n||0).toLocaleString('el-GR',{style:'currency',currency:'EUR'});\nconst login=document.getElementById('login');\nconst app=document.getElementById('app');\nconst loginForm=document.getElementById('login-form');\nconst loginPassword=document.getElementById('login-password');\nconst loginError=document.getElementById('login-error');\n\nfunction showApp(){login.style.display='none';app.classList.remove('locked');}\n\nloginForm.addEventListener('submit',async e=>{\n  e.preventDefault();\n  loginError.textContent='';\n  try{\n    const response=await fetch('/api/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:loginPassword.value})});\n    const result=await response.json().catch(()=>({}));\n    if(!response.ok) throw new Error(result.error||'Αποτυχία σύνδεσης.');\n    loginPassword.value='';\n    showApp();\n    loadOrders();\n  }catch(error){loginError.textContent=error.message||'Λάθος κωδικός.';}\n});
+const euro=n=>Number(n||0).toLocaleString('el-GR',{style:'currency',currency:'EUR'});
+const login=document.getElementById('login');\nconst app=document.getElementById('app');\nconst loginForm=document.getElementById('login-form');\nconst loginPassword=document.getElementById('login-password');\nconst loginError=document.getElementById('login-error');
+
+function showApp(){login.style.display='none';app.classList.remove('locked');}
+
+loginForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  loginError.textContent='';
+  try{
+    const response=await fetch('/api/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:loginPassword.value})});
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok) throw new Error(result.error||'Αποτυχία σύνδεσης.');
+    loginPassword.value='';
+    showApp();
+    loadOrders();
+  }catch(error){loginError.textContent=error.message||'Λάθος κωδικός.';}
+});
 let orders=[];
 let itemsByOrder={};
 const detail=document.getElementById('detail');

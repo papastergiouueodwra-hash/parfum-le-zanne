@@ -111,6 +111,40 @@ function openDetail(id){
   ].map(x=>`<div class="detail-box"><small>${x[0]}</small><span>${x[1]}</span></div>`).join('');
   document.getElementById('detail-products').innerHTML=(o.items||[]).map(i=>`<article class="detail-product"><h3>${i.product_name||'Product'}</h3><p>${i.size||'—'} · ${i.type||'—'} · Qty ${i.quantity} · ${euro(i.total)}</p></article>`).join('');
   document.getElementById('detail-total').textContent=euro(o.total);
+  const statusBox=document.createElement('div');
+  statusBox.className='detail-box';
+  statusBox.innerHTML='<small>Status</small>';
+  const select=document.createElement('select');
+  select.className='status-select';
+  ['Pending','Processing','Delivered','Cancelled'].forEach(status=>{
+    const option=document.createElement('option');
+    option.value=status;
+    option.textContent=status;
+    option.selected=status===o.status;
+    select.appendChild(option);
+  });
+  select.addEventListener('change',async()=>{
+    const nextStatus=select.value;
+    select.disabled=true;
+    try{
+      const response=await fetch('/api/orders',{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({orderId:o.dbId,status:nextStatus})
+      });
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(result.error||'Could not update status.');
+      o.status=nextStatus;
+      render();
+    }catch(error){
+      select.value=o.status;
+      alert(error.message||'Δεν ήταν δυνατή η αλλαγή status.');
+    }finally{
+      select.disabled=false;
+    }
+  });
+  statusBox.appendChild(select);
+  document.getElementById('detail-customer').appendChild(statusBox);
   detail.hidden=false;
 }
 

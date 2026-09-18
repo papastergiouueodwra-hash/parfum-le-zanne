@@ -14,15 +14,43 @@ if(!cart.length){
 subtotalEl.textContent=`${subtotal}€`;
 totalEl.textContent=`${subtotal}€`;
 
-form.addEventListener('submit',(event)=>{
+form.addEventListener('submit',async(event)=>{
   event.preventDefault();
   if(!cart.length){ alert('Your bag is empty.'); return; }
+
   const data=Object.fromEntries(new FormData(form).entries());
-  const order={id:`LZ-${Date.now().toString().slice(-8)}`,customer:data,items:cart,subtotal,total:subtotal,paymentMethod:'Demo / not connected',status:'Pending',createdAt:new Date().toISOString()};
-  const orders=JSON.parse(localStorage.getItem('leZanneOrders')||'[]');
-  orders.unshift(order);
-  localStorage.setItem('leZanneOrders',JSON.stringify(orders));
-  localStorage.setItem('leZanneLastOrder',JSON.stringify(order));
-  success.hidden=false;
-  localStorage.removeItem('leZanneCart');
+  const order={
+    id:`LZ-${Date.now().toString().slice(-8)}`,
+    customer:data,
+    items:cart,
+    subtotal,
+    total:subtotal,
+    paymentMethod:'Demo / not connected',
+    status:'Pending',
+    createdAt:new Date().toISOString()
+  };
+
+  const submitButton=form.querySelector('button[type="submit"], input[type="submit"]');
+  if(submitButton) submitButton.disabled=true;
+
+  try{
+    const response=await fetch('/api/orders',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(order)
+    });
+
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok){
+      throw new Error(result.error || 'Could not save the order.');
+    }
+
+    localStorage.setItem('leZanneLastOrder',JSON.stringify(order));
+    localStorage.removeItem('leZanneCart');
+    success.hidden=false;
+  }catch(error){
+    console.error(error);
+    alert('Η παραγγελία δεν αποθηκεύτηκε. Παρακαλώ δοκιμάστε ξανά.');
+    if(submitButton) submitButton.disabled=false;
+  }
 });

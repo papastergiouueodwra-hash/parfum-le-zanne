@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+<rect width="192" height="192" rx="31" fill="#000"/>
+<rect x="11" y="11" width="171" height="171" rx="25" fill="none" stroke="#C99A2E" stroke-width="2"/>
+<text x="50%" y="51%" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-family="Georgia,serif" font-size="65" font-style="italic">LZ</text>
+<text x="50%" y="150" text-anchor="middle" fill="#C99A2E" font-family="Georgia,serif" font-size="19">✦</text>
+</svg>

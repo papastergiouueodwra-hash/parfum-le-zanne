@@ -2,16 +2,22 @@ const cart = JSON.parse(localStorage.getItem('leZanneCart') || '[]');
 const itemsEl = document.getElementById('checkout-items');
 const subtotalEl = document.getElementById('checkout-subtotal');
 const totalEl = document.getElementById('checkout-total');
+const deliveryEl = document.getElementById('checkout-delivery');
+const freeShippingNoteEl = document.getElementById('free-shipping-note');
 const form = document.getElementById('checkout-form');
 const success = document.getElementById('order-success');
 
 const subtotal = cart.reduce((sum,item)=>sum + Number(item.price || 0) * Number(item.quantity || 1),0);
+const delivery = subtotal >= 50 ? 0 : 3.5;
+const total = subtotal + delivery;
 if(!cart.length){
   itemsEl.innerHTML='<p class="summary-empty">Your bag is empty. Return to the collection to choose a fragrance.</p>';
 }else{
   itemsEl.innerHTML=cart.map(item=>`<article class="summary-item"><h3>${item.product}</h3><p>${item.size} · ${item.type} · Qty ${item.quantity}</p><strong>${Number(item.price)*Number(item.quantity)}€</strong></article>`).join('');
 }
-subtotalEl.textContent=`${subtotal}€`;
+subdeliveryEl.textContent=delivery === 0 ? 'Δωρεάν' : '3,50€';
+freeShippingNoteEl.textContent = subtotal >= 50 ? 'Έχεις δωρεάν μεταφορικά!' : 'Δωρεάν μεταφορικά για παραγγελίες άνω των 50€';
+totalEl.textContent=`${total.toFixed(2).replace('.',',')}€`;
 totalEl.textContent=`${subtotal}€`;
 
 form.addEventListener('submit',async(event)=>{
@@ -24,7 +30,7 @@ form.addEventListener('submit',async(event)=>{
     customer:data,
     items:cart,
     subtotal,
-    total:subtotal,
+    total,
     paymentMethod:'Demo / not connected',
     status:'Pending',
     createdAt:new Date().toISOString()

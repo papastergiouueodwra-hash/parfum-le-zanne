@@ -1,0 +1,11 @@
+{
+  "name": "Le Zanne CRM",
+  "short_name": "Le Zanne",
+  "description": "Le Zanne order management CRM",
+  "start_url": "/admin.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "el"
+}

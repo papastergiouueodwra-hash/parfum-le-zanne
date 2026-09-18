@@ -6,7 +6,7 @@ const deliveryEl = document.getElementById('checkout-delivery');
 const form = document.getElementById('checkout-form');
 const success = document.getElementById('order-success');
 
-const subtotal = cart.reduce((sum,item)=>sum + Number(item.price || 0) * Number(item.quantity || 1),0);
+const subtotal = cart.reduce((sum,item)=>sum + (parseFloat(item.price) || 0) * (parseInt(item.quantity,10) || 1),0);
 const delivery = subtotal >= 50 ? 0 : 3.5;
 const total = subtotal + delivery;
 if(!cart.length){

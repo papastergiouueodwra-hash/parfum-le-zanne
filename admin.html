@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Zanne — Admin</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box}body{margin:0;background:#f7f5f1;color:#151515;font-family:Inter,Arial,sans-serif}.top{height:82px;background:#111;display:flex;align-items:center;justify-content:space-between;padding:0 5%;color:#fff}.brand{font-family:'Cormorant Garamond',serif;font-size:30px;letter-spacing:2px}.brand span{color:#C99A2E}.admin{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#cfcfcf}.wrap{max-width:1250px;margin:0 auto;padding:42px 5% 70px}.title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:500;margin:0 0 5px}.sub{color:#777;font-size:13px;margin-bottom:32px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:34px}.stat{background:#fff;border:1px solid #e7e2d9;padding:22px;border-radius:2px}.stat small{display:block;color:#888;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}.stat strong{font-size:25px;font-weight:500}.orders{background:#fff;border:1px solid #e7e2d9}.orders-head{padding:20px 22px;border-bottom:1px solid #e7e2d9;display:flex;justify-content:space-between;align-items:center}.orders-title{font-family:'Cormorant Garamond',serif;font-size:25px}.search{border:1px solid #ddd;padding:10px 13px;width:230px;font:inherit;font-size:12px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:700px}th,td{text-align:left;padding:16px 22px;border-bottom:1px solid #eee;font-size:12px}th{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:#888;font-weight:500}.status{display:inline-block;padding:6px 9px;border:1px solid #ddd;font-size:9px;text-transform:uppercase;letter-spacing:1px}.empty{text-align:center;padding:55px;color:#888;font-size:13px}.gold{color:#C99A2E}@media(max-width:750px){.top{height:70px}.brand{font-size:25px}.stats{grid-template-columns:repeat(2,1fr)}.wrap{padding-top:28px}.title{font-size:34px}.orders-head{align-items:flex-start;gap:15px;flex-direction:column}.search{width:100%}}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">Le Zanne <span>✦</span></div><div class="admin">Administration</div></header>
+<main class="wrap">
+<h1 class="title">Orders</h1><div class="sub">Πίνακας διαχείρισης παραγγελιών</div>
+<section class="stats"><div class="stat"><small>Σύνολο παραγγελιών</small><strong id="count">0</strong></div><div class="stat"><small>Συνολικές πωλήσεις</small><strong id="sales">0,00€</strong></div><div class="stat"><small>Εκκρεμείς</small><strong id="pending">0</strong></div><div class="stat"><small>Ολοκληρωμένες</small><strong id="done">0</strong></div></section>
+<section class="orders"><div class="orders-head"><div class="orders-title">Recent Orders</div><input class="search" id="search" placeholder="Αναζήτηση παραγγελίας..."></div><div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr></thead><tbody id="orders"><tr><td colspan="5" class="empty">Δεν υπάρχουν ακόμη παραγγελίες.<br><span class="gold">Οι πραγματικές παραγγελίες θα συνδεθούν εδώ στο επόμενο στάδιο.</span></td></tr></tbody></table></div></section>
+</main>
+<script>
+const orders=[];const euro=n=>n.toLocaleString('el-GR',{style:'currency',currency:'EUR'});function render(){const q=document.getElementById('search').value.toLowerCase();const rows=orders.filter(o=>`${o.id} ${o.customer}`.toLowerCase().includes(q));document.getElementById('count').textContent=orders.length;document.getElementById('sales').textContent=euro(orders.reduce((s,o)=>s+o.total,0));document.getElementById('pending').textContent=orders.filter(o=>o.status==='Pending').length;document.getElementById('done').textContent=orders.filter(o=>o.status==='Delivered').length;document.getElementById('orders').innerHTML=rows.length?rows.map(o=>`<tr><td>${o.id}</td><td>${o.customer}</td><td>${o.date}</td><td>${euro(o.total)}</td><td><span class="status">${o.status}</span></td></tr>`).join(''):'<tr><td colspan="5" class="empty">Δεν βρέθηκε παραγγελία.</td></tr>'}document.getElementById('search').addEventListener('input',render);render();
+</script>
+</body></html>
